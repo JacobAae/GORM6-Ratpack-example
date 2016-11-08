@@ -4,8 +4,6 @@ import com.google.inject.AbstractModule
 import com.google.inject.Provides
 import org.grails.orm.hibernate.HibernateDatastore
 
-import javax.sql.DataSource
-
 class GormModule extends AbstractModule {
 
     @Override
@@ -13,14 +11,7 @@ class GormModule extends AbstractModule {
     }
 
     @Provides
-    HibernateDatastore initializeHibernateDatastore(DataSource ds) {
-
-        println "Configuring Gorm HibernateDatastore"
-
-        assert ds
-        assert ds instanceof com.zaxxer.hikari.HikariDataSource
-
-        // TODO How can the HibernateDatastore be configured to use the DataSource provided by Hikari
+    HibernateDatastore hibernateDatastore() {
         Map configuration = [
                 'hibernate.hbm2ddl.auto':'update',
                 'dataSource.driverClassName':'org.postgresql.Driver',
@@ -33,4 +24,5 @@ class GormModule extends AbstractModule {
         HibernateDatastore hibernateDatastore = new HibernateDatastore( configuration ,Person)
         hibernateDatastore
     }
+
 }

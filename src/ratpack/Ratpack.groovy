@@ -1,8 +1,5 @@
-import com.zaxxer.hikari.HikariConfig
 import demo.GormModule
 import demo.Person
-import demo.PostgresModule
-import ratpack.hikari.HikariModule
 import ratpack.exec.Blocking
 import ratpack.groovy.template.MarkupTemplateModule
 
@@ -19,10 +16,6 @@ ratpack {
     module MarkupTemplateModule
     module GormModule
 
-    module(HikariModule) { HikariConfig c ->
-        c.setDataSource( new PostgresModule().dataSource() )
-      }
-
       bindInstance new Service() {
           void onStart(StartEvent e) throws Exception {
               e.getRegistry().get(HibernateDatastore)
@@ -34,17 +27,15 @@ ratpack {
               }
           }
       }
-
   }
 
   handlers {
     get {
         Blocking.get {
             Person.withNewSession {
-                Person.list().collect { "${it.firstName} ${it.lastName}" }
+                Person.list()
             }
         } then { names ->
-            println names
             render(json(names))
         }
     }
