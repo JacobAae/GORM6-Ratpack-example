@@ -1,0 +1,9 @@
+= Ratpack, GORM and Hikari
+
+Sample app, to demo configuration of PostgreSQL, GORM and Hikari.
+
+== Postgres Database Setup
+
+ CREATE USER demo WITH PASSWORD 'demo-password';
+ CREATE DATABASE demodb;
+ GRANT ALL ON DATABASE demodb TO demo;
