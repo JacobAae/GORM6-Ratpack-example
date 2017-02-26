@@ -1,9 +1,18 @@
-= Ratpack, GORM and Hikari
+= Ratpack, GORM and Hikari Connection Pool
 
 Sample app, to demo configuration of PostgreSQL, GORM and Hikari.
 
-== Postgres Database Setup
+== Database Setup
+
+=== Local Postgres Server
+
+If you have a local PostgreSQL server, you can create the
 
  CREATE USER demo WITH PASSWORD 'demo-password';
  CREATE DATABASE demodb;
  GRANT ALL ON DATABASE demodb TO demo;
+
+=== Dockerized Postgres Server
+
+If you don't have a PostgreSQL server running, you can (assuming you have docker installed) run a docker container,
+with the database initialized. Use `./gradlew startContainer` to start it, and `./gradlew removeContainer`

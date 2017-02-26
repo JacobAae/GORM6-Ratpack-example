@@ -5,6 +5,7 @@ buildscript {
   dependencies {
     classpath "io.ratpack:ratpack-gradle:1.4.4"
     classpath "com.github.jengelman.gradle.plugins:shadow:1.2.3"
+    classpath 'com.bmuschko:gradle-docker-plugin:3.0.5'
   }
 }
 
@@ -29,3 +30,36 @@ dependencies {
 
   compile ratpack.dependency('hikari')
 }
+
+apply plugin: 'com.bmuschko.docker-remote-api'
+
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerStartContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerRemoveContainer
+
+task buildImage(type: DockerBuildImage) {
+    inputDir = file('Docker')
+    tag = 'postgresexample'
+}
+
+task createContainer(type: DockerCreateContainer) {
+    dependsOn buildImage
+    targetImageId { 'postgresexample' }
+    containerName = 'postgresexample'
+    portBindings = ['5432:5432']
+}
+
+task startContainer(type: DockerStartContainer) {
+    description "Starts a postgres container with a database and user for the application"
+    dependsOn createContainer
+    targetContainerId { createContainer.getContainerId() }
+}
+
+task removeContainer(type: DockerRemoveContainer) {
+    description "Destroys the postgres container"
+    removeVolumes = true
+    force = true
+    targetContainerId { 'postgresexample' }
+}
+
