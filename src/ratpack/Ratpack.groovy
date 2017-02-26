@@ -1,7 +1,6 @@
 import demo.GormModule
 import demo.Person
 import ratpack.exec.Blocking
-import ratpack.groovy.template.MarkupTemplateModule
 
 import static ratpack.groovy.Groovy.ratpack
 import static ratpack.jackson.Jackson.json
@@ -13,7 +12,6 @@ import org.grails.orm.hibernate.HibernateDatastore
 
 ratpack {
   bindings {
-    module MarkupTemplateModule
     module GormModule
 
       bindInstance new Service() {
