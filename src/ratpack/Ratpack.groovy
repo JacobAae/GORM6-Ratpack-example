@@ -19,8 +19,11 @@ ratpack {
               e.getRegistry().get(HibernateDatastore)
               Blocking.exec {
                   Person.withNewSession {
-                      new Person(firstName: "Bart", lastName: "Simpson").save(flush: true)
-                      new Person(firstName: "Homer", lastName: "Simpson").save(flush:true)
+                      if( !Person.count() ) {
+                          new Person(firstName: "Bart", lastName: "Simpson").save(flush: true)
+                          new Person(firstName: "Homer", lastName: "Simpson").save(flush:true)
+                          new Person(firstName: "Liza", lastName: "Simpson").save(flush:true)
+                      }
                   }
               }
           }
