@@ -14,20 +14,20 @@ ratpack {
   bindings {
     module GormModule
 
-      bindInstance new Service() {
-          void onStart(StartEvent e) throws Exception {
-              e.getRegistry().get(HibernateDatastore)
-              Blocking.exec {
-                  Person.withNewSession {
-                      if( !Person.count() ) {
-                          new Person(firstName: "Bart", lastName: "Simpson").save(flush: true)
-                          new Person(firstName: "Homer", lastName: "Simpson").save(flush:true)
-                          new Person(firstName: "Liza", lastName: "Simpson").save(flush:true)
-                      }
+    bindInstance new Service() {
+      void onStart(StartEvent e) throws Exception {
+          e.getRegistry().get(HibernateDatastore)
+          Blocking.exec {
+              Person.withNewSession {
+                  if( !Person.count() ) {
+                      new Person(firstName: "Bart", lastName: "Simpson").save(flush: true)
+                      new Person(firstName: "Homer", lastName: "Simpson").save(flush:true)
+                      new Person(firstName: "Liza", lastName: "Simpson").save(flush:true)
                   }
               }
           }
       }
+    }
   }
 
   handlers {
