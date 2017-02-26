@@ -7,8 +7,7 @@ import org.grails.orm.hibernate.HibernateDatastore
 class GormModule extends AbstractModule {
 
     @Override
-    protected void configure() {
-    }
+    protected void configure() {}
 
     @Provides
     HibernateDatastore hibernateDatastore() {
@@ -24,5 +23,4 @@ class GormModule extends AbstractModule {
         HibernateDatastore hibernateDatastore = new HibernateDatastore( configuration ,Person)
         hibernateDatastore
     }
-
 }
